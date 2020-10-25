@@ -1,6 +1,6 @@
 # BaseDelegateAdapter
 
-高性能、高拓展地处理 RecyclerView multiple item types。
+高性能、易维护、易拓展地处理 RecyclerView multiple item types。
 
 ## 使用方式
 
