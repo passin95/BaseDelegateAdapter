@@ -1,0 +1,18 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+    }
+}
+
+dependencies {
+    implementation rootProject.ext.appCompat
+    api rootProject.ext.recyclerview
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.ext.kotlinVersion"
+}
+
+apply from: "$rootDir/gradle/gradle-mvn-push.gradle"
