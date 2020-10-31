@@ -47,6 +47,7 @@ abstract class BaseDelegateAdapter @JvmOverloads constructor(data: MutableList<A
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressWarnings("unchecked")
     override fun getItemId(position: Int): Long {
         val item = items[position]
         val itemViewType = getItemViewType(position)
@@ -85,12 +86,12 @@ abstract class BaseDelegateAdapter @JvmOverloads constructor(data: MutableList<A
         notifyItemRemoved(position)
     }
 
-    fun setData(@IntRange(from = 0) index: Int, data: Any, @Nullable payload: Any) {
-        if (index >= items.size) {
+    fun setData(@IntRange(from = 0) position: Int, data: Any, @Nullable payload: Any) {
+        if (position >= items.size) {
             return
         }
-        items[index] = data
-        notifyItemChanged(index, payload)
+        items[position] = data
+        notifyItemChanged(position, payload)
     }
 
     fun replaceData(newData: Collection<Any>) {
@@ -162,6 +163,7 @@ abstract class BaseDelegateAdapter @JvmOverloads constructor(data: MutableList<A
         return typeDelegateMap.get(holder.itemViewType) as BaseItemViewDelegate<Any, ViewHolder>
     }
 
+    @SuppressWarnings("unchecked")
     open fun <T : BaseItemViewDelegate<*, *>> getDelegateByItemViewType(viewType: Int): T {
         return typeDelegateMap.get(viewType) as T
     }

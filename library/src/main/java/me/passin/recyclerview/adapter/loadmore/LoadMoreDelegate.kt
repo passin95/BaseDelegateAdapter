@@ -15,7 +15,7 @@ import me.passin.recyclerview.adapter.loadmore.LoadMoreView.Companion.STATUS_LOA
  * @date: 2020/10/6 16:37
  * @desc:
  */
-class LoadMoreDelegate(@NonNull private var loadMoreView: LoadMoreView) : BaseItemViewDelegate<Any, LoadMoreDelegate.ViewHolder>() {
+class LoadMoreDelegate(@NonNull val loadMoreView: LoadMoreView) : BaseItemViewDelegate<Any, LoadMoreDelegate.ViewHolder>() {
 
     private var loadMoreListener: OnLoadMoreListener? = null
 
@@ -66,7 +66,7 @@ class LoadMoreDelegate(@NonNull private var loadMoreView: LoadMoreView) : BaseIt
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, item: Any, positon: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, item: Any, position: Int) {
         loadMoreView.onBindViewHolder(holder)
     }
 
@@ -109,7 +109,7 @@ class LoadMoreDelegate(@NonNull private var loadMoreView: LoadMoreView) : BaseIt
     }
 
     private fun invokeLoadMoreListener() {
-        loadMoreView.loadMoreStatus = LoadMoreView.STATUS_LOADING
+        loadMoreView.loadMoreStatus = STATUS_LOADING
         adapter.recyclerView?.post {
             loadMoreListener?.onLoadMore()
         }
@@ -139,7 +139,6 @@ class LoadMoreDelegate(@NonNull private var loadMoreView: LoadMoreView) : BaseIt
         }
     }
 
-    @JvmOverloads
     fun loadMoreComplete() {
         if (!hasLoadMoreView()) {
             return
@@ -148,7 +147,6 @@ class LoadMoreDelegate(@NonNull private var loadMoreView: LoadMoreView) : BaseIt
         adapter.notifyItemChanged(loadMoreViewPosition)
     }
 
-    @JvmOverloads
     fun loadMoreFail() {
         if (!hasLoadMoreView()) {
             return

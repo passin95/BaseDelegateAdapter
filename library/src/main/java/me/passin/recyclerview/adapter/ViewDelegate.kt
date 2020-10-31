@@ -9,21 +9,21 @@ abstract class ViewDelegate<T, V : View> : BaseItemViewDelegate<T, ViewDelegate.
 
     abstract fun onCreateView(context: Context): V
 
-    abstract fun onBindView(view: V, item: T, positon: Int)
+    abstract fun onBindView(view: V, item: T, position: Int)
 
     open fun onCreateView(context: Context, parent: ViewGroup): V {
         return onCreateView(context)
     }
 
-    open fun onBindView(holder: Holder<V>, view: V, item: T, positon: Int) {
-        onBindView(view, item, positon)
+    open fun onBindView(holder: Holder<V>, view: V, item: T, position: Int) {
+        onBindView(view, item, position)
     }
 
     override fun onCreateViewHolder(context: Context, parent: ViewGroup): Holder<V> {
         return Holder(onCreateView(context, parent))
     }
 
-    override fun onBindViewHolder(holder: Holder<V>, item: T, positon: Int) = onBindView(holder, holder.view, item, positon)
+    override fun onBindViewHolder(holder: Holder<V>, item: T, position: Int) = onBindView(holder, holder.view, item, position)
 
     class Holder<V : View>(val view: V) : RecyclerView.ViewHolder(view)
 
