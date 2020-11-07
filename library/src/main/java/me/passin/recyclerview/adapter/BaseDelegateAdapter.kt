@@ -1,6 +1,5 @@
 package me.passin.recyclerview.adapter
 
-import android.content.Context
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.annotation.IntRange
@@ -13,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 abstract class BaseDelegateAdapter @JvmOverloads constructor(data: MutableList<Any>? = null) : RecyclerView.Adapter<ViewHolder>() {
 
     private var typeDelegateMap = SparseArray<BaseItemViewDelegate<*, *>>()
-
-    lateinit var context: Context
-        private set
 
     var recyclerView: RecyclerView? = null
 
@@ -138,7 +134,6 @@ abstract class BaseDelegateAdapter @JvmOverloads constructor(data: MutableList<A
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         this.recyclerView = recyclerView
-        this.context = recyclerView.context
         val delegateSize = typeDelegateMap.size()
         for (i in 0 until delegateSize) {
             val itemviewdelegate = typeDelegateMap.valueAt(i)
