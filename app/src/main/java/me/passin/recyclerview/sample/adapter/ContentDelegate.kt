@@ -36,13 +36,13 @@ class ContentDelegate : BaseItemViewDelegate<Content, ContentDelegate.ViewHolder
         holder.tvDesc.text = item.desc + holder.adapterPosition
     }
 
-    override fun setOnItemChildClick(v: View, position: Int) {
+    override fun setOnItemChildClick(v: View, viewHolder: ViewHolder, position: Int) {
         // 可以在代理对象内部处理点击逻辑，也可以在代理类外部监听处理（setOnItemChildClickListener），能做到灵活处理。
         if (v.id == R.id.tv_desc) {
             Toast.makeText(v.context, "文字被点击了，position：$position", Toast.LENGTH_SHORT).show()
             return
         }
-        super.setOnItemChildClick(v, position)
+        super.setOnItemChildClick(v, viewHolder, position)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

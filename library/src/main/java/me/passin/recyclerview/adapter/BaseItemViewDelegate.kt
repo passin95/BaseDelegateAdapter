@@ -48,14 +48,14 @@ abstract class BaseItemViewDelegate<T, VH : ViewHolder> {
      * 绑定 item 点击事件
      * @param viewHolder VH
      */
-    protected open fun bindItemClickListener(viewHolder: ViewHolder) {
+    protected open fun bindItemClickListener(viewHolder: VH) {
         onItemClickListener?.let {
             viewHolder.itemView.setOnClickListener { v ->
                 val position = viewHolder.adapterPosition
                 if (position == RecyclerView.NO_POSITION) {
                     return@setOnClickListener
                 }
-                setOnItemClick(v, position)
+                setOnItemClick(v, viewHolder, position)
             }
         }
         onItemLongClickListener?.let {
@@ -64,12 +64,12 @@ abstract class BaseItemViewDelegate<T, VH : ViewHolder> {
                 if (position == RecyclerView.NO_POSITION) {
                     return@setOnLongClickListener false
                 }
-                setOnItemLongClick(v, position)
+                setOnItemLongClick(v, viewHolder, position)
             }
         }
     }
 
-    protected open fun bindChildClickListener(@NonNull viewHolder: ViewHolder, vararg childViews: View) {
+    protected open fun bindChildClickListener(@NonNull viewHolder: VH, vararg childViews: View) {
         onItemChildClickListener?.let {
             for (childView in childViews) {
                 childView.setOnClickListener { v ->
@@ -77,13 +77,13 @@ abstract class BaseItemViewDelegate<T, VH : ViewHolder> {
                     if (position == RecyclerView.NO_POSITION) {
                         return@setOnClickListener
                     }
-                    setOnItemChildClick(v, position)
+                    setOnItemChildClick(v, viewHolder, position)
                 }
             }
         }
     }
 
-    protected open fun bindChildLongClickListener(@NonNull viewHolder: ViewHolder, vararg childViews: View) {
+    protected open fun bindChildLongClickListener(@NonNull viewHolder: VH, vararg childViews: View) {
         onItemChildLongClickListener?.let {
             for (childView in childViews) {
                 childView.setOnLongClickListener { v ->
@@ -91,25 +91,25 @@ abstract class BaseItemViewDelegate<T, VH : ViewHolder> {
                     if (position == RecyclerView.NO_POSITION) {
                         return@setOnLongClickListener false
                     }
-                    setOnItemChildLongClick(v, position)
+                    setOnItemChildLongClick(v, viewHolder, position)
                 }
             }
         }
     }
 
-    protected open fun setOnItemClick(v: View, position: Int) {
+    protected open fun setOnItemClick(v: View, @NonNull viewHolder: VH, position: Int) {
         onItemClickListener?.onItemClick(adapter, v, position)
     }
 
-    protected open fun setOnItemLongClick(v: View, position: Int): Boolean {
+    protected open fun setOnItemLongClick(v: View, @NonNull viewHolder: VH, position: Int): Boolean {
         return onItemLongClickListener?.onItemLongClick(adapter, v, position) ?: false
     }
 
-    protected open fun setOnItemChildClick(v: View, position: Int) {
+    protected open fun setOnItemChildClick(v: View, @NonNull viewHolder: VH, position: Int) {
         onItemChildClickListener?.onItemChildClick(adapter, v, position)
     }
 
-    protected open fun setOnItemChildLongClick(v: View, position: Int): Boolean {
+    protected open fun setOnItemChildLongClick(v: View, @NonNull viewHolder: VH, position: Int): Boolean {
         return onItemChildLongClickListener?.onItemChildLongClick(adapter, v, position) ?: false
     }
 
