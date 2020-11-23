@@ -12,19 +12,28 @@ import me.passin.recyclerview.adapter.loadmore.LoadMoreView
  */
 abstract class BaseQuickAdapter @JvmOverloads constructor(data: MutableList<Any>? = null) : BaseDelegateAdapter(data) {
 
-    var loadMoreDelegate: LoadMoreDelegate? = null
+    @Suppress("PropertyName")
+    internal var _loadMoreDelegate: LoadMoreDelegate? = null
+
+    val loadMoreDelegate: LoadMoreDelegate
+        get() {
+            if (_loadMoreDelegate == null) {
+                throw NullPointerException("You should call supporLoadMore().")
+            }
+            return _loadMoreDelegate!!
+        }
 
     companion object {
         const val LOAD_MORE_VIEW = 0x10000111
     }
 
     open fun supporLoadMore(@NonNull loadMoreView: LoadMoreView) {
-        loadMoreDelegate = LoadMoreDelegate(loadMoreView)
-        addDelegate(LOAD_MORE_VIEW, loadMoreDelegate!!)
+        _loadMoreDelegate = LoadMoreDelegate(loadMoreView)
+        addDelegate(LOAD_MORE_VIEW, _loadMoreDelegate!!)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
-        loadMoreDelegate?.let {
+        _loadMoreDelegate?.let {
             it.autoLoadMore(position)
             if (position == items.size) {
                 it.onBindViewHolder(holder as LoadMoreDelegate.ViewHolder, position, position)
@@ -37,14 +46,14 @@ abstract class BaseQuickAdapter @JvmOverloads constructor(data: MutableList<Any>
     }
 
     override fun getItemCount(): Int {
-        loadMoreDelegate?.let {
+        _loadMoreDelegate?.let {
             return items.size + if (it.hasLoadMoreView()) 1 else 0
         }
         return items.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (loadMoreDelegate != null && position == items.size) {
+        return if (_loadMoreDelegate != null && position == items.size) {
             LOAD_MORE_VIEW
         } else {
             getDefItemViewType(position)
