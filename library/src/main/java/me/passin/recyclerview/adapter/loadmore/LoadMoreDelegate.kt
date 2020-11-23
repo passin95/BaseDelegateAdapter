@@ -58,7 +58,7 @@ class LoadMoreDelegate(@NonNull val loadMoreView: LoadMoreView) : BaseItemViewDe
     override fun onCreateViewHolder(context: Context, parent: ViewGroup): ViewHolder {
         val view = loadMoreView.getRootView(parent)
         view.setOnClickListener {
-            if (loadMoreView.loadMoreStatus == LoadMoreView.STATUS_DEFAULT || loadMoreView.loadMoreStatus == LoadMoreView.STATUS_FAIL) {
+            if (loadMoreView.loadMoreStatus == LoadMoreView.STATUS_FAIL || loadMoreView.loadMoreStatus == LoadMoreView.STATUS_DEFAULT) {
                 invokeLoadMoreListener()
                 adapter.notifyItemChanged(loadMoreViewPosition)
             }
@@ -109,14 +109,14 @@ class LoadMoreDelegate(@NonNull val loadMoreView: LoadMoreView) : BaseItemViewDe
     }
 
     private fun invokeLoadMoreListener() {
-        loadMoreView.loadMoreStatus = STATUS_LOADING
+        loadMoreView.loadMoreStatus = LoadMoreView.STATUS_LOADING
         adapter.recyclerView?.post {
             loadMoreListener?.onLoadMore()
         }
     }
 
     fun hasLoadMoreView(): Boolean {
-        if (loadMoreListener == null || !isEnableLoadMore) {
+        if (!isEnableLoadMore) {
             return false
         }
         if (loadMoreView.loadMoreStatus == LoadMoreView.STATUS_END_GONE) {
@@ -125,7 +125,6 @@ class LoadMoreDelegate(@NonNull val loadMoreView: LoadMoreView) : BaseItemViewDe
         return adapter.items.isNotEmpty()
     }
 
-    @JvmOverloads
     fun loadMoreEnd(gone: Boolean = false) {
         if (!hasLoadMoreView()) {
             return
@@ -188,4 +187,5 @@ class LoadMoreDelegate(@NonNull val loadMoreView: LoadMoreView) : BaseItemViewDe
             return view as T
         }
     }
+
 }
