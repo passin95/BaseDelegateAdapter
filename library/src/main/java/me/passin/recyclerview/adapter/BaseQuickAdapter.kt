@@ -27,7 +27,7 @@ abstract class BaseQuickAdapter @JvmOverloads constructor(data: MutableList<Any>
         const val LOAD_MORE_VIEW = 0x10000111
     }
 
-    open fun supporLoadMore(@NonNull loadMoreView: LoadMoreView) {
+    open fun supportLoadMore(@NonNull loadMoreView: LoadMoreView) {
         _loadMoreDelegate = LoadMoreDelegate(loadMoreView)
         addDelegate(LOAD_MORE_VIEW, _loadMoreDelegate!!)
     }
